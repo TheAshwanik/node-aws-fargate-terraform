@@ -1,15 +1,11 @@
-const mongoose = require("mongoose");
+const {MongoClient} = require('mongodb');
 
 const mongoConnectionString = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB_NAME}?retryWrites=true`;
+const client = new MongoClient(mongoConnectionString);
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongoConnectionString, {
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-      useUnifiedTopology: true
-    });
+    await client.connect();
 
     console.log("MongoDB Connected...");
   } catch (err) {
