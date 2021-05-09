@@ -1,11 +1,15 @@
-const {MongoClient} = require('mongodb');
+const mongoose = require("mongoose");
 
 const mongoConnectionString = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB_NAME}?retryWrites=true`;
-const client = new MongoClient(mongoConnectionString);
 
 const connectDB = async () => {
   try {
-    await client.connect();
+    await mongoose.connect(mongoConnectionString, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+      useUnifiedTopology: true
+    });
 
     console.log("MongoDB Connected...");
   } catch (err) {
@@ -16,3 +20,20 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+// const {MongoClient} = require('mongodb');
+
+// const mongoConnectionString = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}/${process.env.MONGO_DB_NAME}?retryWrites=true`;
+// const client = new MongoClient(mongoConnectionString);
+
+// const connectDB = async () => {
+//   try {
+//     await client.connect();
+
+//     console.log("MongoDB Connected...");
+//   } catch (err) {
+//     console.error(err.message);
+//     // Exit process with failure
+//     process.exit(1);
+//   }
+// };
